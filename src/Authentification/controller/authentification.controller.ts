@@ -1,16 +1,17 @@
 import {
   Body,
   ClassSerializerInterceptor,
-  Controller,
+  Controller, Get,
   HttpCode,
   HttpStatus,
   Inject,
-  Post,
+  Post, UseGuards,
   UseInterceptors
 } from "@nestjs/common";
 import { AuthService } from "../service/authentification.service";
 import { LoginDto, RegisterDto } from "../dto/auth.dto";
 import { User } from "../../entities/user";
+import { AuthGuard } from "@nestjs/passport";
 
 @Controller('auth')
 export class AuthController {
@@ -34,6 +35,12 @@ export class AuthController {
     return this.service.login(query);
   }
 
+  @UseGuards(AuthGuard('jwt'))
+  @HttpCode(HttpStatus.OK)
+  @Get('testToken')
+  private test( ) {
+    return "hello"
+  }
 
 
 }

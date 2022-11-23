@@ -7,18 +7,18 @@ import { User } from "../entities/user";
 import { AuthHelper } from "./service/authHelper";
 import { PassportModule } from "@nestjs/passport";
 import { JwtModule } from "@nestjs/jwt";
-
+import { AtStrategy } from "./strategies";
 
 @Module({
   imports: [TypeOrmModule.forRootAsync({
     useClass: TypeOrmConfigService
   }),PassportModule,
     JwtModule.register({
-
     }),
     TypeOrmModule.forFeature([User]),
   ],
   controllers: [AuthController],
-  providers: [AuthService,AuthHelper],
+  providers: [AuthService,AuthHelper,AtStrategy],
 })
+
 export class AuthModule {}
