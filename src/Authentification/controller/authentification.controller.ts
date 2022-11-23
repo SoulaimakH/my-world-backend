@@ -12,6 +12,7 @@ import { AuthService } from "../service/authentification.service";
 import { LoginDto, RegisterDto } from "../dto/auth.dto";
 import { User } from "../../entities/user";
 import { AuthGuard } from "@nestjs/passport";
+import { Public } from "../../decorators/public.decorator";
 
 @Controller('auth')
 export class AuthController {
@@ -19,6 +20,7 @@ export class AuthController {
   private readonly service: AuthService;
 
   // @Post('register')
+  @Public()
   @Post('regitre')
   @UseInterceptors(ClassSerializerInterceptor)
   private register( @Body()body: RegisterDto) {
@@ -29,6 +31,7 @@ export class AuthController {
     async findByFilter(@Query() query): Promise<Article[]> {*/
   // @Post('oauth/token')
   //@UseGuards(AuthGuard('basic'))
+  @Public()
   @HttpCode(HttpStatus.OK)
   @Post('login')
   private login( @Body()query:LoginDto) {

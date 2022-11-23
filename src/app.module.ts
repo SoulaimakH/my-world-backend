@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import { AuthModule } from "./Authentification/auth.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { TypeOrmConfigService } from "./typorem/config";
+import { APP_GUARD } from "@nestjs/core";
+import { AtGuard } from "./Guards/atGuard";
 
 @Module({
   imports: [AuthModule,
@@ -11,6 +13,9 @@ import { TypeOrmConfigService } from "./typorem/config";
     useClass: TypeOrmConfigService
   }),],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, {
+    provide: APP_GUARD,
+    useClass: AtGuard,
+  },],
 })
 export class AppModule {}
