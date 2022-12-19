@@ -1,7 +1,8 @@
-import {Column, Entity, PrimaryColumn} from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
+import { RoomEntity } from "../chat/model/room.entity";
 
 @Entity({ name: 'users' })
-export class User {
+export class UserEntity {
 
   /** The id user. */
   @PrimaryColumn('uuid')
@@ -30,4 +31,8 @@ export class User {
   /** The roles. */
   @Column()
   roles:string;
+
+  /** Created rooms */
+  @OneToMany(()=> RoomEntity , (room) => room.owner)
+  created_rooms
 }

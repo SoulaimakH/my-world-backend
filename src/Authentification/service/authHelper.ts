@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable, UnauthorizedException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { User } from "../../entities/user";
+import { UserEntity } from "../../entities/user";
 import { Repository } from "typeorm";
 import { JwtService } from "@nestjs/jwt";
 import * as bcrypt from 'bcryptjs';
@@ -8,8 +8,8 @@ import { Tokens } from "../dto/Tokens";
 
 @Injectable()
 export class AuthHelper {
-  @InjectRepository(User)
-  private readonly repository: Repository<User>;
+  @InjectRepository(UserEntity)
+  private readonly repository: Repository<UserEntity>;
 
   private readonly jwt: JwtService;
 
@@ -23,12 +23,12 @@ export class AuthHelper {
   }
 
   // Get UserDto by UserDto ID we get from decode()
-  public async validateUser(decoded: any): Promise<User> {
+  public async validateUser(decoded: any): Promise<UserEntity> {
     return this.repository.findOneById(decoded.id);
   }
 
   // Generate JWT Token
-  public async generateToken(user: User): Promise<Tokens> {
+  public async generateToken(user: UserEntity): Promise<Tokens> {
     const [at, rt] = ([
       this.jwt.sign(
         {id: user.id, email: user.email},
@@ -75,7 +75,7 @@ export class AuthHelper {
       throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
     }
 
-    const user: User = await this.validateUser(decoded);
+    const user: UserEntity = await this.validateUser(decoded);
 
     if (!user) {
       throw new UnauthorizedException();

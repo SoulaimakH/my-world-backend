@@ -10,7 +10,6 @@ import {
 } from "@nestjs/common";
 import { AuthService } from "../service/authentification.service";
 import { LoginDto, RegisterDto } from "../dto/auth.dto";
-import { User } from "../../entities/user";
 import { AuthGuard } from "@nestjs/passport";
 
 @Controller('auth')
@@ -18,7 +17,6 @@ export class AuthController {
   @Inject(AuthService)
   private readonly service: AuthService;
 
-  // @Post('register')
   @Post('regitre')
   @UseInterceptors(ClassSerializerInterceptor)
   private register( @Body()body: RegisterDto) {

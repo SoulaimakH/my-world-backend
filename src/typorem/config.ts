@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from "@nestjs/typeorm";
-import { User } from "../entities/user";
+import { UserEntity } from "../entities/user";
+import { RoomEntity } from "../chat/model/room.entity";
 
 
 @Injectable()
@@ -14,8 +15,9 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       port: 3306,
       username: 'root',
       password: '',
-      database: 'bdangularproject',
-      entities: [User],
+      database: 'my_world_project_BD',
+      //entities: [UserEntity , RoomEntity],
+      autoLoadEntities: true,
       synchronize: true,
     };
   }

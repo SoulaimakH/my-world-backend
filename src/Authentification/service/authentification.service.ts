@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { User } from "../../entities/user";
+import { UserEntity } from "../../entities/user";
 import { AuthHelper } from "./authHelper";
 import { Repository } from "typeorm";
 import { Tokens } from "../dto/Tokens";
@@ -9,23 +9,23 @@ import { LoginDto, RegisterDto } from "../dto/auth.dto";
 
 @Injectable()
 export class AuthService {
-  @InjectRepository(User)
-  private readonly repository: Repository<User>;
+  @InjectRepository(UserEntity)
+  private readonly repository: Repository<UserEntity>;
 
   @Inject(AuthHelper)
   private readonly helper: AuthHelper;
 
 
 
-  public async register(body: RegisterDto): Promise<User | never> {
+  public async register(body: RegisterDto): Promise<UserEntity | never> {
     const { login, email, password,nom,prenom,role }: RegisterDto = body;
-    let user: User = await this.repository.findOne({ where: { email } });
+    let user: UserEntity = await this.repository.findOne({ where: { email } });
 
     if (user) {
       throw new HttpException('Conflict', HttpStatus.CONFLICT);
     }
 
-    user = new User();
+    user = new UserEntity();
     user.id= uuidv4();
     user.login = login;
     user.email = email;
@@ -39,7 +39,7 @@ export class AuthService {
 
   public async login(body: LoginDto): Promise<Tokens | never> {
     const { username, password }: LoginDto = body;
-    const user: User = await this.repository.findOne({ where: { login:username } });
+    const user: UserEntity = await this.repository.findOne({ where: { login:username } });
 
     if (!user) {
       throw new HttpException('No user found', HttpStatus.NOT_FOUND);
@@ -54,12 +54,12 @@ export class AuthService {
     return this.helper.generateToken(user);
   }
 
-  public async refresh(user: User): Promise<Tokens> {
+  public async refresh(user: UserEntity): Promise<Tokens> {
 
     return this.helper.generateToken(user);
   }
 
-  public async connected(user: User): Promise<User> {
+  public async connected(user: UserEntity): Promise<UserEntity> {
     return  this.helper.validateUser(user)
   }
 
