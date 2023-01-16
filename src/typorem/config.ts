@@ -16,6 +16,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       password: 'admin',
       database: 'spacy',
       entities: [User],
+      autoLoadEntities: true,
       synchronize: true,
     };
   }
