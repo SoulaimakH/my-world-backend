@@ -6,12 +6,14 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { TypeOrmConfigService } from "./typorem/config";
 import { APP_GUARD } from "@nestjs/core";
 import { AtGuard } from "./Guards/atGuard";
+import { ArticleModule } from './article/article.module';
 
 @Module({
   imports: [AuthModule,
     TypeOrmModule.forRootAsync({
     useClass: TypeOrmConfigService
-  }),],
+  }),
+    ArticleModule,],
   controllers: [AppController],
   providers: [AppService, {
     provide: APP_GUARD,

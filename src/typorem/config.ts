@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from "@nestjs/typeorm";
+import { Article } from 'src/article/entities/article.entity';
 import { User } from "../entities/user";
 
 
@@ -14,8 +15,8 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       port: 3306,
       username: 'root',
       password: '',
-      database: 'bdangularproject',
-      entities: [User],
+      database: 'spacy',
+      entities: [User , Article],
       synchronize: true,
     };
   }
