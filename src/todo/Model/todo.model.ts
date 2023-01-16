@@ -1,6 +1,6 @@
 import { TodoStatusEnum } from '../enums/todo-status.enum';
 
-export class Todo {
+export class Todo { 
   constructor(
     public id = '',
     public name: string = '',

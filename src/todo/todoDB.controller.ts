@@ -9,10 +9,7 @@ import {
   Query,
   Req,
   UseGuards,
-} from '@nestjs/common';
-import { Todo } from './Model/todo.model';
-import { Request } from 'express';
-import { v4 as uuidv4 } from 'uuid';
+} from '@nestjs/common'; 
 import { TodoService } from './todo.service';
 import { TodoEntity } from './Entity/todo.entity';
 import { UpdateTodoDto } from './update-todo.dto';
@@ -20,31 +17,31 @@ import { UpdateResult } from 'typeorm/query-builder/result/UpdateResult';
 import { DeleteResult } from 'typeorm/query-builder/result/DeleteResult';
 import { SearchTodoDto } from './dto/search-todo.dto';
 import { AuthGuard } from '@nestjs/passport'; 
-import { Public } from 'src/decorators/public.decorator';
-// import { GetUser } from '../auth/decorateur/getUser.paramDecorater';
-// import { AuthorisationGuard } from '../auth/guards/authorisation.guard';
-// import { Roles } from '../auth/decorateur/roles.metadata';
+import { Public } from 'src/decorators/public.decorator'; 
+import { Roles } from '../decorators/public.decorator';
+import { GetUser } from 'src/decorators/getUser.paramDecorater';
+import { AtGuard } from 'src/Guards/atGuard';
+import { User } from 'src/entities/user';
 @Controller({
   path: 'todo', 
 })
-// @Roles('user')
+@Roles('user')
 export class TodoDBController {
   constructor(private todoService: TodoService) {}
   @Public()
   @Get()
   getTodos(@Query() searchTodoDto: SearchTodoDto): Promise<TodoEntity[]> {
     return this.todoService.findAll(searchTodoDto);
-  }
-  @Public()
+  } 
   @Post()
-  // @Roles('admin')
-  // @UseGuards(AuthGuard('jwt'), AuthorisationGuard)
+  @Roles('admin')
+  @UseGuards(AuthGuard('jwt'), AtGuard)
   addTodo(
     @Body() newTodoData: Partial<TodoEntity>,
-    // @GetUser() user: User,
+    @GetUser() user: User,
   ): Promise<TodoEntity> {
     console.log(newTodoData);
-    return this.todoService.addTodo(newTodoData);
+    return this.todoService.addTodo(newTodoData,user);
   }
   @Patch(':id')
   updateTodo(

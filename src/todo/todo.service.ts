@@ -6,6 +6,7 @@ import { UpdateTodoDto } from './update-todo.dto';
 import { DeleteResult } from 'typeorm/query-builder/result/DeleteResult';
 import { UpdateResult } from 'typeorm/query-builder/result/UpdateResult';
 import { SearchTodoDto } from './dto/search-todo.dto';
+import { User } from 'src/entities/user';
 
 @Injectable()
 export class TodoService {
@@ -13,7 +14,9 @@ export class TodoService {
     @InjectRepository(TodoEntity)
     private todoRepository: Repository<TodoEntity>,
   ) {}
-  addTodo(todo: Partial<TodoEntity>): Promise<TodoEntity> {
+  addTodo(todo: Partial<TodoEntity>,user:User): Promise<TodoEntity> {
+    if(user) 
+      todo.user=user;
     return this.todoRepository.save(todo);
   }
 
@@ -62,8 +65,8 @@ export class TodoService {
       criterias.push({ description: Like(`%${searchTodoDto.criteria}%`) });
     }
     if (criterias.length) {
-      return this.todoRepository.find({ withDeleted: true, where: criterias });
+      return this.todoRepository.find({ withDeleted: false, where: criterias });
     }
-    return this.todoRepository.find({ withDeleted: true});
+    return this.todoRepository.find({ withDeleted: false});
   }
 }

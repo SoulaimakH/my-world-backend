@@ -9,6 +9,6 @@ export class TiemstampEntity {
   updatedAt: Date;
   @DeleteDateColumn({})
   deletedAt: Date;
-  @VersionColumn()
-  version: number;
+  // @VersionColumn()
+  // version: number;
 }
