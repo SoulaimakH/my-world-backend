@@ -5,13 +5,15 @@ import { AuthModule } from "./Authentification/auth.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { TypeOrmConfigService } from "./typorem/config";
 import { APP_GUARD } from "@nestjs/core";
-import { AtGuard } from "./Guards/atGuard";
+import { AtGuard } from "./Authentification/Guards/atGuard";
+import { TodoModule } from './todo/todo.module';
 
 @Module({
   imports: [AuthModule,
     TypeOrmModule.forRootAsync({
     useClass: TypeOrmConfigService
-  }),],
+  }),
+    TodoModule,],
   controllers: [AppController],
   providers: [AppService, {
     provide: APP_GUARD,
