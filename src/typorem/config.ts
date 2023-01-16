@@ -16,6 +16,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       password: '',
       database: 'bdangularproject',
       entities: [User],
+      autoLoadEntities: true,
       synchronize: true,
     };
   }
