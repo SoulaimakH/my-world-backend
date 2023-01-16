@@ -7,13 +7,17 @@ import { TypeOrmConfigService } from "./typorem/config";
 import { APP_GUARD } from "@nestjs/core";
 import { AtGuard } from "./Guards/atGuard";
 import { TodoModule } from './todo/todo.module';
+import { ArticleModule } from './article/article.module';
+
 
 @Module({
   imports: [AuthModule,
     TypeOrmModule.forRootAsync({
     useClass: TypeOrmConfigService
   }),
-    TodoModule,],
+    TodoModule,
+    ArticleModule,],
+
   controllers: [AppController],
   providers: [AppService, {
     provide: APP_GUARD,
