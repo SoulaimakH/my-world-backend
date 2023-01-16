@@ -48,6 +48,8 @@ export class AuthHelper {
     ]);
     // const hash = await argon.hash(at);
     return {
+      username: user.login,
+      role: user.roles,
       access_token: at,
       token_type: process.env.token_type,
       refresh_token: rt,
