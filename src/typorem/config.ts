@@ -14,8 +14,8 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: 'admin',
-      database: 'spacy',
+      password: '',
+      database: 'bdangularproject',
       entities: [User , Article],
       autoLoadEntities: true,
     };

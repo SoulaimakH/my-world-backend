@@ -24,17 +24,17 @@ export class RegisterDto {
 
 export class LoginDto {
   @Trim()
-  @IsEmail()
+  //@IsEmail()
   @IsNotEmpty()
   public readonly username: string;
-  public readonly grant_type:string;
+  //public readonly grant_type:string;
 
 
   @IsString()
   @IsNotEmpty()
   public readonly password: string;
 
-  @IsString()
+  /*@IsString()
   @IsNotEmpty()
-  public readonly location: string;
+  public readonly location: string;*/
 }

@@ -8,9 +8,10 @@ import { AuthHelper } from "./service/authHelper";
 import { PassportModule } from "@nestjs/passport";
 import { JwtModule } from "@nestjs/jwt";
 import { AtStrategy } from "./strategies";
+import { AdminModule } from "../Adminitration/admin.module";
 
 @Module({
-  imports: [TypeOrmModule.forRootAsync({
+  imports: [AdminModule,TypeOrmModule.forRootAsync({
     useClass: TypeOrmConfigService
   }),PassportModule,
     JwtModule.register({

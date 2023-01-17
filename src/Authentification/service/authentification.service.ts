@@ -6,6 +6,7 @@ import { Repository } from "typeorm";
 import { Tokens } from "../dto/Tokens";
 import {v4 as uuidv4} from 'uuid';
 import { LoginDto, RegisterDto } from "../dto/auth.dto";
+import { loginresponseDto } from "../dto/login.response.dto";
 
 @Injectable()
 export class AuthService {
@@ -37,23 +38,25 @@ export class AuthService {
     return user
   }
 
-  public async login(body: LoginDto) {
+
+  public async login(body: LoginDto): Promise<loginresponseDto> {
+
     const { username, password }: LoginDto = body;
     const user: User = await this.repository.findOne({ where: { login:username } });
-
     if (!user) {
-      throw new HttpException('No user found', HttpStatus.NOT_FOUND);
+      throw new HttpException('No user found', HttpStatus.FORBIDDEN);
     }
 
     const isPasswordValid: boolean = await this.helper.isPasswordValid(password, user.password);
 
     if (!isPasswordValid) {
-      throw new HttpException('No user found', HttpStatus.NOT_FOUND);
+      throw new HttpException('No user found', HttpStatus.FORBIDDEN);
     }
 
     let token:Tokens =await this.helper.generateToken(user)
     return { user:user,token:token };
-    
+
+
   }
 
   public async refresh(user: User): Promise<Tokens> {
