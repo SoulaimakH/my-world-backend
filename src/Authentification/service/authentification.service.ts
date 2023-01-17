@@ -37,7 +37,7 @@ export class AuthService {
     return user
   }
 
-  public async login(body: LoginDto): Promise<Tokens | never> {
+  public async login(body: LoginDto) {
     const { username, password }: LoginDto = body;
     const user: User = await this.repository.findOne({ where: { login:username } });
 
@@ -51,7 +51,9 @@ export class AuthService {
       throw new HttpException('No user found', HttpStatus.NOT_FOUND);
     }
 
-    return this.helper.generateToken(user);
+    let token:Tokens =await this.helper.generateToken(user)
+    return { user:user,token:token };
+    
   }
 
   public async refresh(user: User): Promise<Tokens> {

@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from "@nestjs/typeorm";
+import { Article } from 'src/article/entities/article.entity';
 import { User } from "../entities/user";
 
 
@@ -13,11 +14,10 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: '',
-      database: 'bdangularproject',
-      entities: [User],
+      password: 'admin',
+      database: 'spacy',
+      entities: [User , Article],
       autoLoadEntities: true,
-      synchronize: true,
     };
   }
 }

@@ -21,7 +21,7 @@ export class AuthController {
 
   // @Post('register')
   @Public()
-  @Post('regitre')
+  @Post('registre')
   @UseInterceptors(ClassSerializerInterceptor)
   private register( @Body()body: RegisterDto) {
     return this.service.register(body);
